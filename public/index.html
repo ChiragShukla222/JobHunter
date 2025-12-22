@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobHunt - Job Aggregation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JobHunt</h1>
+            <p class="subtitle">Aggregated Job Listings</p>
+        </header>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="keywordInput" 
+                    placeholder="Enter job keyword (e.g., 'react dev', 'node js')"
+                    value="react dev"
+                >
+                <button id="searchBtn">Search Jobs</button>
+            </div>
+        </div>
+
+        <div class="filters-section">
+            <div class="filter-group">
+                <label for="sourceFilter">Filter by Source:</label>
+                <select id="sourceFilter">
+                    <option value="all">All Sources</option>
+                    <option value="wellfound">Wellfound</option>
+                    <option value="hirist">Hirist</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="locationFilter">Filter by Location:</label>
+                <input type="text" id="locationFilter" placeholder="Enter location">
+            </div>
+            <button id="clearFiltersBtn">Clear Filters</button>
+        </div>
+
+        <div id="loadingIndicator" class="loading hidden">
+            <p>Fetching jobs...</p>
+        </div>
+
+        <div id="errorMessage" class="error hidden"></div>
+
+        <div id="resultsSection" class="results-section hidden">
+            <div class="results-header">
+                <h2 id="resultsTitle">Job Results</h2>
+                <p id="resultsCount" class="results-count"></p>
+            </div>
+            <div id="jobsContainer"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+

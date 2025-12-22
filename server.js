@@ -9,7 +9,11 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+
+// Serve static files (only in local development, Vercel handles this automatically)
+if (process.env.VERCEL !== '1') {
+  app.use(express.static('public'));
+}
 
 // API endpoint to fetch and store jobs by keyword
 app.post('/api/jobs/fetch', async (req, res) => {
@@ -59,7 +63,18 @@ app.get('/api/keywords', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
+
+// Export for Vercel serverless functions
+module.exports = app;
+
+// Start server locally if not in Vercel environment
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
 

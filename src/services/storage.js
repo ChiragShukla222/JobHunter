@@ -1,42 +1,20 @@
-const fs = require('fs');
-const path = require('path');
-
-const DATA_DIR = path.join(__dirname, '../../data');
-const DATA_FILE = path.join(DATA_DIR, 'jobs.json');
-
-// Ensure data directory exists
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-}
-
-// Initialize data file if it doesn't exist
-if (!fs.existsSync(DATA_FILE)) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify({}, null, 2));
-}
+// In-memory storage for serverless compatibility (Vercel, etc.)
+// Note: Data will be lost on serverless function restart
+// For production, consider using Vercel KV, Postgres, or another database
+let jobsData = {};
 
 /**
  * Load all jobs from storage
  */
 function loadJobs() {
-  try {
-    const data = fs.readFileSync(DATA_FILE, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    console.error('Error loading jobs:', error);
-    return {};
-  }
+  return jobsData;
 }
 
 /**
  * Save all jobs to storage
  */
-function saveAllJobs(jobsData) {
-  try {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(jobsData, null, 2));
-  } catch (error) {
-    console.error('Error saving jobs:', error);
-    throw error;
-  }
+function saveAllJobs(data) {
+  jobsData = data;
 }
 
 /**

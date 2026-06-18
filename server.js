@@ -5,13 +5,13 @@ const { fetchJobsByKeyword } = require('./src/services/jobFetcher');
 const { saveJobs, getJobsByKeyword } = require('./src/services/storage');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from public directory
-app.use(express.static('public'));
+// Serve static files - must be before route handlers
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve index.html for root path (SPA support)
 app.get('/', (req, res) => {

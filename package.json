@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "validate": "node --check server.js"
   },
   "keywords": [],
   "author": "",

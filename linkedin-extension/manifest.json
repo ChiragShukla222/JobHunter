@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "JobHunt LinkedIn Assistant",
+  "version": "1.0.0",
+  "description": "Automatically extract and analyze LinkedIn job postings with JobHunt's intelligent matching system",
+  
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  
+  "host_permissions": [
+    "https://www.linkedin.com/jobs/view/*",
+    "https://www.linkedin.com/jobs/collections/*",
+    "https://www.linkedin.com/jobs/search/*"
+  ],
+  
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.linkedin.com/jobs/view/*",
+        "https://www.linkedin.com/jobs/collections/*",
+        "https://www.linkedin.com/jobs/search/*"
+      ],
+      "js": ["linkedin-extractor.js"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "JobHunt LinkedIn Assistant"
+  },
+  
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  }
+}

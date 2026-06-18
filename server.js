@@ -10,22 +10,10 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 
-// Serve static files with proper headers - must be before route handlers
-app.use(express.static(path.join(__dirname, 'public'), {
-  maxAge: '1h',
-  etag: false
-}));
+// Serve static files from public directory (must come before routes)
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Explicitly serve CSS and JS files
-app.get('/styles.css', (req, res) => {
-  res.type('text/css').sendFile(path.join(__dirname, 'public', 'styles.css'));
-});
-
-app.get('/app.js', (req, res) => {
-  res.type('application/javascript').sendFile(path.join(__dirname, 'public', 'app.js'));
-});
-
-// Serve index.html for root path (SPA support)
+// Serve index.html for root path and SPA fallback
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });

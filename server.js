@@ -10,10 +10,13 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Serve static files (only in local development, Vercel handles this automatically)
-if (process.env.VERCEL !== '1') {
-  app.use(express.static('public'));
-}
+// Serve static files from public directory
+app.use(express.static('public'));
+
+// Serve index.html for root path (SPA support)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // API endpoint to fetch and store jobs by keyword
 app.post('/api/jobs/fetch', async (req, res) => {
@@ -66,6 +69,11 @@ app.get('/api/keywords', (req, res) => {
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Fallback: Serve index.html for all non-API routes (SPA support)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Export for Vercel serverless functions

@@ -1,33 +1,29 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { fetchJobsByKeyword } = require('./src/services/jobFetcher');
-const { saveJobs, getJobsByKeyword } = require('./src/services/storage');
+const { fetchJobsByKeyword } = require('../src/services/jobFetcher');
+const { saveJobs, getJobsByKeyword, getAllKeywords } = require('../src/services/storage');
 
 const app = express();
-const PORT = process.env.PORT || 8000;
 
 app.use(cors());
 app.use(express.json());
 
-// Serve static files with proper headers - must be before route handlers
-app.use(express.static(path.join(__dirname, 'public'), {
-  maxAge: '1h',
-  etag: false
-}));
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Explicitly serve CSS and JS files
 app.get('/styles.css', (req, res) => {
-  res.type('text/css').sendFile(path.join(__dirname, 'public', 'styles.css'));
+  res.type('text/css').sendFile(path.join(__dirname, '../public', 'styles.css'));
 });
 
 app.get('/app.js', (req, res) => {
-  res.type('application/javascript').sendFile(path.join(__dirname, 'public', 'app.js'));
+  res.type('application/javascript').sendFile(path.join(__dirname, '../public', 'app.js'));
 });
 
-// Serve index.html for root path (SPA support)
+// Serve index.html for root path
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
 
 // API endpoint to fetch and store jobs by keyword
@@ -69,7 +65,6 @@ app.get('/api/jobs/:keywordId', (req, res) => {
 // API endpoint to get all keywords
 app.get('/api/keywords', (req, res) => {
   try {
-    const { getAllKeywords } = require('./src/services/storage');
     const keywords = getAllKeywords();
     res.json({ keywords });
   } catch (error) {
@@ -85,16 +80,7 @@ app.get('/api/health', (req, res) => {
 
 // Fallback: Serve index.html for all non-API routes (SPA support)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
 
-// Export for Vercel serverless functions
 module.exports = app;
-
-// Start server locally if not in Vercel environment
-if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-}
-

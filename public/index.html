@@ -3,21 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JobHunt - Job Aggregation</title>
+    <title>JobHunt - Intelligent Job Matching</title>
+    
+    <!-- Google Fonts: Serif Typography for Editorial Design -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
             <h1>JobHunt</h1>
-            <p class="subtitle">Aggregated Job Listings</p>
+            <p class="subtitle">Intelligent Job Matching System</p>
         </header>
 
         <div class="search-section">
             <div class="search-box">
-                <input 
-                    type="text" 
-                    id="keywordInput" 
+                <input
+                    type="text"
+                    id="keywordInput"
                     placeholder="Enter job keyword (e.g., 'react dev', 'node js')"
                     value="react dev"
                 >
@@ -41,18 +47,37 @@
             <button id="clearFiltersBtn">Clear Filters</button>
         </div>
 
+        <!-- CV Upload Section -->
+        <div class="cv-section">
+            <h2>CV Analysis</h2>
+            <div class="cv-upload">
+                <input type="file" id="cvFile" accept=".pdf,.doc,.docx,.txt">
+                <button id="uploadCvBtn">Upload CV for Analysis</button>
+                <p id="cvStatus">No CV uploaded</p>
+            </div>
+            <div id="cvAnalysis" class="cv-analysis hidden">
+                <h3>CV Analysis Results</h3>
+                <div id="cvSkills"></div>
+                <div id="cvExperience"></div>
+            </div>
+        </div>
+
         <div id="loadingIndicator" class="loading hidden">
-            <p>Fetching jobs...</p>
+            <p>Fetching jobs and analyzing matches...</p>
         </div>
 
         <div id="errorMessage" class="error hidden"></div>
 
-        <div id="resultsSection" class="results-section hidden">
-            <div class="results-header">
-                <h2 id="resultsTitle">Job Results</h2>
-                <p id="resultsCount" class="results-count"></p>
+        <!-- Two Panel Layout -->
+        <div class="two-panel-layout">
+            <div class="panel panel-high-match">
+                <h2>Highly Relevant Jobs (<span id="highMatchCount">0</span>)</h2>
+                <div id="highMatchContainer" class="jobs-container"></div>
             </div>
-            <div id="jobsContainer"></div>
+            <div class="panel panel-moderate-match">
+                <h2>Moderate Match Jobs (up to 50%) (<span id="moderateMatchCount">0</span>)</h2>
+                <div id="moderateMatchContainer" class="jobs-container"></div>
+            </div>
         </div>
     </div>
 

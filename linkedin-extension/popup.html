@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobHunt LinkedIn Assistant</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup-container">
+        <div class="header">
+            <h1>JobHunt</h1>
+            <span class="subtitle">LinkedIn Job Extractor</span>
+        </div>
+
+        <div id="content" class="content">
+            <!-- Loading state -->
+            <div id="loading" class="loading hidden">
+                <p>Loading job data...</p>
+                <div class="spinner"></div>
+            </div>
+
+            <!-- Job data display -->
+            <div id="jobData" class="job-data hidden">
+                <div class="job-info">
+                    <h2 id="jobTitle" class="job-title"></h2>
+                    <p id="company" class="company"></p>
+                    <p id="extractedAt" class="timestamp"></p>
+                </div>
+
+                <div class="description-section">
+                    <h3>Job Description</h3>
+                    <div id="description" class="description-text"></div>
+                </div>
+
+                <div class="actions">
+                    <button id="sendToAnalysis" class="btn btn-primary">
+                        Send to Analysis
+                    </button>
+                    <button id="clearData" class="btn btn-secondary">
+                        Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- No data state -->
+            <div id="noData" class="no-data">
+                <p>📋 No job data extracted yet</p>
+                <p class="hint">Navigate to a LinkedIn job posting to extract details</p>
+            </div>
+
+            <!-- Error state -->
+            <div id="error" class="error hidden">
+                <p id="errorMessage"></p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <small>JobHunt Extension v1.0.0</small>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

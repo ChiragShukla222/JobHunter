@@ -1,5 +1,6 @@
 const wellfoundFetcher = require('./sources/wellfound');
 const hiristFetcher = require('./sources/hirist');
+const linkedinFetcher = require('./sources/linkedin');
 
 /**
  * Fetches jobs from all sources for a given keyword
@@ -18,11 +19,17 @@ async function fetchJobsByKeyword(keyword) {
   }
 
   try {
-    // Fetch from Hirist
     const hiristJobs = await hiristFetcher.fetch(keyword);
     allJobs.push(...hiristJobs);
   } catch (error) {
     console.error('Error fetching from Hirist:', error);
+  }
+
+  try {
+    const linkedinJobs = await linkedinFetcher.fetch(keyword);
+    allJobs.push(...linkedinJobs);
+  } catch (error) {
+    console.error('Error fetching from LinkedIn:', error);
   }
 
   return allJobs;
